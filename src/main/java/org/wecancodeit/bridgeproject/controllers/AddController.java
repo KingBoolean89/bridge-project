@@ -28,9 +28,8 @@ public class AddController {
 		return "states";
 	}
 	
-	@RequestMapping("/states/{id}")
-	public String showAState(@PathVariable(value="id")Long id, Model model) {
-		model.addAttribute("state", stateRepo.findById(id).get());
+	@RequestMapping("/states/{abbr}")
+	public String showAState(@PathVariable(value="abbr")String abbr) {
 		return "state";
 	}
 	
@@ -41,8 +40,8 @@ public class AddController {
 	}
 	
 	@PostMapping("/states")
-	public String addCity(Model model, String cityName, int cityPop, Long stateId) {
-		cityRepo.save(new City(cityName, cityPop, stateRepo.findById(stateId).get()));
+	public String addCity() {
+//		cityRepo.save(new City(cityName, cityPop, stateRepo.findById(stateId).get()));
 		return "redirect:/states";
 	}
 	

@@ -21,35 +21,15 @@ public class ApiController {
 		return stateRepo.findAll();
 	}
 	
-//	@GetMapping("/api/states/{id}")
-//	public State showStates(@PathVariable(value = "id") Long id) {
-//		return stateRepo.findById(id).get();
-//	}
-	
-	//FUCKING OPTIONALS FUCKING EVERYTHING UP AGAIN!
 	@GetMapping("/api/states/{abbr}")
-	public State showStates(@PathVariable(value = "abbr") String abbr) {
-		Long id = 0L;
-		for(State state : stateRepo.findAll()) {
-			if(state.getAbbreviation().equals(abbr)) {
-				id = state.getId();
-			}
-		}
-		return stateRepo.findById(id).get();
+	public State showAState(@PathVariable(value = "abbr") String abbr) {
+		//This method comes from the StateRepository class, it's a JPA query
+		return stateRepo.findByAbbreviationIgnoreCase(abbr);
 	}
-//	
-//
-//	@GetMapping("/api/states/{abbr}/cities")
-//	public Collection<City> listCities(@PathVariable(value = "abbr") String abbr) {
-//		Long id = 0L;
-//		for(State state : stateRepo.findAll()) {
-//			if(state.getAbbreviation().equals(abbr)) {
-//				id = state.getId();
-//			}
-//		}
-//		return stateRepo.findById(id).get().getCities();
-//	}
 	
-	
+	@GetMapping("/api/states/{abbr}/cities")
+	public Collection<City> showStateCities(@PathVariable(value = "abbr") String abbr) {
+		return stateRepo.findByAbbreviationIgnoreCase(abbr).getCities();
+	}
 	
 }
